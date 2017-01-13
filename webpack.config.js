@@ -7,7 +7,7 @@ var TransferWebpackPlugin = require('transfer-webpack-plugin');
 
 var entries = [
   'webpack-hot-middleware/client',
-  path.join(__dirname, '/js/index.js'),
+  path.join(__dirname, '/src/index.js'),
   "./assets/sass/index.scss"
 ];
 
@@ -49,7 +49,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'js/index.tpl.html',
+      template: 'src/index.tpl.html',
       inject: 'body',
       filename: 'index.html'
     }),
