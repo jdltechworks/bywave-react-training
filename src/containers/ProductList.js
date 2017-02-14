@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as ProductActions from '../redux/actions/ProductActions';
 
 class SingleProductView extends Component {
   render() {
@@ -10,20 +13,34 @@ class SingleProductView extends Component {
 
 class ProductsView extends Component {
   render() {
+    let { props } = this;
+    let { products: { collection } } = props;
     return(
-      <div>This is a list of products soon!</div>
+      <div><ul>{_.map(collection, (gym, key) => {
+        return <li key={key}>{gym.name}</li>
+      })}</ul></div>
     );
   }
 }
 
+@connect((state) => {
+  return {
+    products: state.Product
+  }
+}, dispatch => bindActionCreators(ProductActions, dispatch))
+
 export default class ProductList extends Component {
+  componentDidMount() {
+    this.props.fetchProducts();
+  }
   render() {
     let { props } = this;
     let { params: { id } } = props;
+    let { products } = props;
     if(id !== undefined) {
-      return(<SingleProductView />);
+      return(<SingleProductView {...props} />);
     } else {
-      return(<ProductsView />)
+      return(<ProductsView {...props} />)
     }
   }
 } 
